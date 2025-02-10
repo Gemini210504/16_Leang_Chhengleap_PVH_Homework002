@@ -9,7 +9,10 @@ public class SavingAccount implements Account{
     private String phoneNumber;
     private double balance;
     private double rate;
-    Display display;
+
+    String reset = "\u001B[0m";
+    String red = "\u001B[31m";
+    String blue = "\u001B[34m";
 
     public SavingAccount(String userName, String dateOfBirth, String gender, String phoneNumber) {
         this.accountNumber= random.nextInt(1000000000);
@@ -28,71 +31,80 @@ public class SavingAccount implements Account{
     public int getAccountNumber() {
         return accountNumber;
     }
-    double total;
     @Override
     public Account deposit(double amount) {
         if (amount > 0) {
             if(amount<200) {
                 balance += amount;
-                total=balance;
-//            rate= rate * balance;
-//            total=rate+balance;
-                System.out.println("                 Saving Account                       ");
-                System.out.println("Received        :                         $ " + amount);
-                System.out.println("Total balance    :                         $ " + total);
-                System.out.println("=============================================================");
-                System.out.println("Withdraw successful!");
+                System.out.println(blue+"                 Saving Account                       "+reset);
+                System.out.println(blue+"Received            :                         $ " + amount+""+reset);
+                System.out.println(blue+"Total balance       :                         $ " + balance+""+reset);
+
+                System.out.println(blue+"\n Withdraw successful!");
+                System.out.println(blue+"=============================================================");
+
             }else{
                 balance += amount;
-                rate= rate * balance;
-                total=rate+balance;
-//                balance +=amount*rate;
-                System.out.println("                 Saving Account                       ");
-                System.out.println("Received        :                         $ " + amount);
-                System.out.println("Total balance    :                         $ " + total);
-                System.out.println("=============================================================");
-                System.out.println("Withdraw successful!");
+                double interest = balance * rate;
+                balance += interest;
+                System.out.println(blue+"                 Saving Account                       "+reset);
+                System.out.println(blue+"Received            :                         $ " + amount+""+reset);
+                System.out.println(blue+"Total balance       :                         $ " + balance+""+reset);
+                System.out.println(blue+"\n Withdraw successful!");
+                System.out.println(blue+"=============================================================\n"+reset);
+
             }
         } else {
-            System.out.println("Invalid deposit amount. It must be positive!");
+            System.out.println(red+"Invalid deposit amount. It must be positive!"+reset);
         }
         return null;
     }
 
     @Override
     public void withdraw(double amount) {
-        if (amount > 0 && total >= amount) {
-            total -= amount;
-            System.out.println("                 Saving Account                       ");
-            System.out.println("Withdraw        :                         $ "+amount);
-            System.out.println("Total Amount    :                         $ "+total);
-            System.out.println("=============================================================");
-            System.out.println("Withdraw successful!");
-        } else {
-            System.out.println("No balance in saving account or invalid amount.");
+        if (amount <= (0.8 * balance) && balance >= amount) {
+            balance -= amount;
+            System.out.println(blue+"                 Saving Account                       "+reset);
+            System.out.println(blue+"Withdraw            :                         $ "+amount+""+reset);
+            System.out.println(blue+"Total Amount        :                         $ "+balance+""+reset);
+
+            System.out.println(blue+"\n Withdraw successful!"+reset);
+            System.out.println(blue+"============================================================="+reset);
+
+        } else if (amount > (0.8*balance)){
+            System.out.println(red+"Cannot withdraw $"+amount+". At lease "+(amount-(0.8*balance))+" must remain in the account."+reset);
+        }else{
+            System.out.println(red+"No balance in saving account or invalid amount."+reset);
         }
+
     }
 
     @Override
     public void transfer(double amount, Account targetAccount) {
-        if (amount > 0 && total >= amount) {
-            total -= amount;
+
+        if (amount > 0 && balance >= amount) {
+            balance -= amount;
             targetAccount.deposit(amount);
-            System.out.println("Transferred $" + amount + " from your Saving account to the target account.");
+
+            System.out.println(blue+"Transferred         :                       $"+amount+""+reset);
+            System.out.println(blue+"From                : Saving Account with ID  : "+getAccountNumber()+""+reset);
+            System.out.println(blue+"To                  : Checking Account with ID    : "+((CheckingAccount) targetAccount).getAccountNumber()+""+reset);
+            System.out.println(blue+"Transferred $" + amount + " from your Saving account to the target account."+reset);
         } else {
-            System.out.println("No balance in saving account or invalid transfer amount.");
+            System.out.println(red+"No balance in saving account or invalid transfer amount."+reset);
         }
     }
 
     @Override
     public void displayAccount() {
-        System.out.println("======= Saving Account Information =======");
-        System.out.println("Account Number: " + accountNumber);
-        System.out.println("Username: " + userName);
-        System.out.println("Date of Birth: " + dateOfBirth);
-        System.out.println("Gender: " + gender);
-        System.out.println("Phone Number: " + phoneNumber);
-        System.out.println("Balance: $" + total);
-        System.out.println("============================================");
+        System.out.println(blue+"======= Saving Account Information ======="+reset);
+        System.out.println(blue+"Account Type  : Saving Account"+reset);
+        System.out.println(blue+"Account Number: " + accountNumber+""+reset);
+        System.out.println(blue+"Username: " + userName+""+reset);
+        System.out.println(blue+"Date of Birth: " + dateOfBirth+""+reset);
+        System.out.println(blue+"Gender: " + gender+""+reset);
+        System.out.println(blue+"Phone Number: " + phoneNumber+""+reset);
+        System.out.println(blue+"Balance: $" + balance+""+reset);
+        System.out.println(blue+"============================================"+reset);
     }
 }

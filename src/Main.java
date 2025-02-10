@@ -44,7 +44,7 @@ public class Main {
 
                 }
                 case "7": {
-                    System.out.println(display.red + "Exiting..." + display.reset);
+                    System.out.println(display.red + "Exiting...╰(*°▽°*)╯" + display.reset);
                     break;
                 }
                 default:

@@ -7,6 +7,7 @@ public class Display {
     String blue = "\u001B[34m";
     CheckingAccount checkingAccounts;
     SavingAccount savingAccounts ;
+
     public void createAccount(){
         while (true) {
             System.out.println("============================== Creating Account ===========================");
@@ -70,7 +71,7 @@ public class Display {
                     break;
                 }
             }
-            System.out.println(red+"Invalid format (User need have above 15 years old)! Please enter again (dd-mm-yyyy)."+reset);
+            System.out.println(red+"Invalid format (User must be have above 15 years old)! Please enter again (dd-mm-yyyy)."+reset);
         }
 
         while (true) {
@@ -86,10 +87,10 @@ public class Display {
         while (true) {
             System.out.print("=> Enter phone number: ");
             numPhone = sc.nextLine().trim();
-            if (numPhone.matches("^0[0-9]{8,10}$")) {
+            if (numPhone.matches("^0[0-9]{8,9}$")) {
                 break;
             }
-            System.out.println(red+"Invalid phone number! It must start with '0' and be 9-11 digits long."+reset);
+            System.out.println(red+"Invalid phone number! It must start with '0' and be 8-9 digits long."+reset);
         }
 
         System.out.println(blue+"\n✅ "+accountType+" Created Successfully ❤️😊"+reset);
@@ -189,11 +190,11 @@ public class Display {
         String transfer;
         do{
             System.out.println("============================== Transfer Money ===========================");
-            System.out.println("[1]. Checking Account");
-            System.out.println("[2]. Saving Account");
+            System.out.println("[1]. Checking Account -> Saving Account");
+            System.out.println("[2]. Saving Account   -> Checking Account");
             System.out.println("[3]. Back");
             System.out.println("===========================================================================");
-            System.out.print(blue+"What type of account do you want to transfer? : "+reset);
+            System.out.print(blue+"What is your choice? : "+reset);
             transfer = sc.nextLine();
             switch (transfer){
                 case "1":
@@ -244,37 +245,38 @@ public class Display {
     public void deleteAccount() {
         System.out.print("=> Enter account type to delete [1.Checking account, 2.Saving account]: ");
         int option = sc.nextInt();
-        sc.nextLine(); // Consume the newline character
+        sc.nextLine();
 
         switch (option) {
-            case 1: { // Deleting Checking Account
+            case 1: {
                 if (checkingAccounts == null) {
-                    System.out.println(red + "❌ No Checking account to delete!" + reset);
+                    System.out.println(red + "No Checking account to delete!" + reset);
                     return;
                 }
 
                 if (savingAccounts != null && checkingAccounts.getBalance() > 0) {
                     System.out.print(blue + "You have $" + checkingAccounts.getBalance() + " in your Checking account. Transfer to Saving account before deleting? (yes/no): " + reset);
-                    String confirmTransfer = sc.nextLine().trim().toLowerCase();
+                    String confirmTransfer = sc.nextLine().toLowerCase();
                     if (confirmTransfer.equals("yes")) {
-                        savingAccounts.deposit(checkingAccounts.getBalance());
-                        System.out.println(blue + "✅ Transferred $" + checkingAccounts.getBalance() + " to your Saving account." + reset);
+//                        savingAccounts.deposit(checkingAccounts.getBalance());
+                        checkingAccounts.transfer(checkingAccounts.getBalance(),savingAccounts);
+                        System.out.println(blue + "Transferred $" + checkingAccounts.getBalance() + " to your Saving account." + reset);
                     }
                 }
 
                 System.out.print(blue + "Are you sure you want to delete your Checking account? (yes/no): " + reset);
-                String confirmDelete = sc.nextLine().trim().toLowerCase();
+                String confirmDelete = sc.nextLine().toLowerCase();
                 if (confirmDelete.equals("yes")) {
                     checkingAccounts = null;
-                    System.out.println(blue + "✅ Checking account deleted successfully!" + reset);
+                    System.out.println(blue + "Checking account deleted successfully!" + reset);
                 } else {
-                    System.out.println(blue + "❌ Deletion canceled." + reset);
+                    System.out.println(blue + "Deletion canceled." + reset);
                 }
                 break;
             }
-            case 2: { // Deleting Saving Account
+            case 2: {
                 if (savingAccounts == null) {
-                    System.out.println(red + "❌ No Saving account to delete!" + reset);
+                    System.out.println(red + "No Saving account to delete!" + reset);
                     return;
                 }
 
@@ -282,8 +284,9 @@ public class Display {
                     System.out.print(blue + "You have $" + savingAccounts.getBalance() + " in your Saving account. Transfer to Checking account before deleting? (yes/no): " + reset);
                     String confirmTransfer = sc.nextLine().trim().toLowerCase();
                     if (confirmTransfer.equals("yes")) {
-                        checkingAccounts.deposit(savingAccounts.getBalance());
-                        System.out.println(blue + "✅ Transferred $" + savingAccounts.getBalance() + " to your Checking account." + reset);
+//                        checkingAccounts.deposit(savingAccounts.getBalance());
+                        savingAccounts.transfer(savingAccounts.getBalance(), checkingAccounts);
+                        System.out.println(blue + "Transferred $" + savingAccounts.getBalance() + " to your Checking account." + reset);
                     }
                 }
 
@@ -291,14 +294,14 @@ public class Display {
                 String confirmDelete = sc.nextLine().trim().toLowerCase();
                 if (confirmDelete.equals("yes")) {
                     savingAccounts = null;
-                    System.out.println(blue + "✅ Saving account deleted successfully!" + reset);
+                    System.out.println(blue + "Saving account deleted successfully!" + reset);
                 } else {
-                    System.out.println(blue + "❌ Deletion canceled." + reset);
+                    System.out.println(red + "Deletion canceled." + reset);
                 }
                 break;
             }
             default:
-                System.out.println(red + "❌ Invalid option! Please enter 1 or 2." + reset);
+                System.out.println(red + "Invalid option! Please enter 1 or 2." + reset);
         }
     }
 
