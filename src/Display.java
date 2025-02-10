@@ -10,12 +10,12 @@ public class Display {
 
     public void createAccount(){
         while (true) {
-            System.out.println("============================== Creating Account ===========================");
+            System.out.println("\n============================== Creating Account ===========================");
             System.out.println("[1]. Checking Account");
             System.out.println("[2]. Saving Account");
             System.out.println("[3]. Back");
             System.out.println("===========================================================================");
-            System.out.print(blue + "What type of account do you want to create? : " + reset);
+            System.out.print("What type of account do you want to create? : " );
             String creating = sc.nextLine().trim();
             switch (creating) {
                 case "1":
@@ -24,7 +24,7 @@ public class Display {
                         checkingAccounts.getAccountNumber();
                     }
                     else{
-                        System.out.println(red+"You already have checking account!"+reset);
+                        System.out.println(red+"You already have checking account!\n"+reset);
                     }
                     break;
                 case "2":
@@ -33,15 +33,15 @@ public class Display {
                         savingAccounts.getAccountNumber();
                     }
                     else{
-                        System.out.println(red+"You already have saving account!"+reset);
+                        System.out.println(red+"You already have saving account!\n"+reset);
                     }
 
                     break;
                 case "3":
-                    System.out.println(blue+"🙏 Thank you for visiting our bank! ❤️"+reset);
+                    System.out.println(blue+"🙏 Thank you for visiting our bank! ❤️\n"+reset);
                     return;
                 default:
-                    System.out.println(red+"Invalid choice! Please enter 1, 2, or 3."+reset);
+                    System.out.println(red+"Invalid choice! Please enter 1, 2, or 3.\n"+reset);
             }
         }
     }
@@ -59,19 +59,24 @@ public class Display {
         }
 
         int presentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+
         while (true) {
             System.out.print("=> Enter date of birth (dd-mm-yyyy): ");
             birth = sc.nextLine().trim();
+            int[] daysInMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
             if (birth.matches("^([0-9]{2}-[0-9]{2}-[0-9]{4})$")) {
                 String[] years = birth.split("-");
                 int day = Integer.parseInt(years[0]);
                 int month = Integer.parseInt(years[1]);
                 int birthYear = Integer.parseInt(years[2]);
-                if (day <= 31 && month <= 12 && (presentYear- birthYear) >= 16) {
+                if (month == 2 && (birthYear % 4 == 0) && (birthYear % 100 != 0) || (birthYear % 400 == 0)) {
+                    daysInMonth[2] = 29;
+                }
+                if ((month>=1 && month<=12) &&  (day >= 1 && day <= daysInMonth[month] )&& (presentYear- birthYear) >= 16) {
                     break;
                 }
             }
-            System.out.println(red+"Invalid format (User must be have above 15 years old)! Please enter again (dd-mm-yyyy)."+reset);
+            System.out.println(red+"Invalid format or User must be have above 15 years old! Please enter again (dd-mm-yyyy)."+reset);
         }
 
         while (true) {
@@ -110,7 +115,7 @@ public class Display {
             System.out.println("[2]. Saving Account");
             System.out.println("[3]. Back");
             System.out.println("===========================================================================");
-            System.out.print(blue+"What type of account do you want to deposit into? : "+reset);
+            System.out.print("What type of account do you want to deposit into? : ");
             deposit = sc.nextLine();
             switch (deposit){
                 case "1":
@@ -151,9 +156,10 @@ public class Display {
             System.out.println("[1]. Checking Account");
             System.out.println("[2]. Saving Account");
             System.out.println("[3]. Back");
-            System.out.println("===========================================================================");
-            System.out.print(blue+"What type of account do you want to withdraw from? : "+reset);
+            System.out.println("=========================================================================");
+            System.out.print("What type of account do you want to withdraw from? : ");
             withdraw = sc.nextLine();
+            System.out.println("\n");
             switch (withdraw){
                 case "1":
                     if (checkingAccounts == null) {
@@ -193,9 +199,10 @@ public class Display {
             System.out.println("[1]. Checking Account -> Saving Account");
             System.out.println("[2]. Saving Account   -> Checking Account");
             System.out.println("[3]. Back");
-            System.out.println("===========================================================================");
-            System.out.print(blue+"What is your choice? : "+reset);
+            System.out.println("=========================================================================");
+            System.out.print("What is your choice? : ");
             transfer = sc.nextLine();
+            System.out.println("\n");
             switch (transfer){
                 case "1":
                     if (checkingAccounts == null) {
@@ -255,16 +262,14 @@ public class Display {
                 }
 
                 if (savingAccounts != null && checkingAccounts.getBalance() > 0) {
-                    System.out.print(blue + "You have $" + checkingAccounts.getBalance() + " in your Checking account. Transfer to Saving account before deleting? (yes/no): " + reset);
+                    System.out.print("You have $" + checkingAccounts.getBalance() + " in your Checking account. Transfer to Saving account before deleting? (yes/no): " );
                     String confirmTransfer = sc.nextLine().toLowerCase();
                     if (confirmTransfer.equals("yes")) {
-//                        savingAccounts.deposit(checkingAccounts.getBalance());
                         checkingAccounts.transfer(checkingAccounts.getBalance(),savingAccounts);
-                        System.out.println(blue + "Transferred $" + checkingAccounts.getBalance() + " to your Saving account." + reset);
                     }
                 }
 
-                System.out.print(blue + "Are you sure you want to delete your Checking account? (yes/no): " + reset);
+                System.out.print("Are you sure you want to delete your Checking account? (yes/no): ");
                 String confirmDelete = sc.nextLine().toLowerCase();
                 if (confirmDelete.equals("yes")) {
                     checkingAccounts = null;
@@ -281,16 +286,15 @@ public class Display {
                 }
 
                 if (checkingAccounts != null && savingAccounts.getBalance() > 0) {
-                    System.out.print(blue + "You have $" + savingAccounts.getBalance() + " in your Saving account. Transfer to Checking account before deleting? (yes/no): " + reset);
+                    System.out.print("You have $" + savingAccounts.getBalance() + " in your Saving account. Transfer to Checking account before deleting? (yes/no): " );
                     String confirmTransfer = sc.nextLine().trim().toLowerCase();
                     if (confirmTransfer.equals("yes")) {
-//                        checkingAccounts.deposit(savingAccounts.getBalance());
                         savingAccounts.transfer(savingAccounts.getBalance(), checkingAccounts);
-                        System.out.println(blue + "Transferred $" + savingAccounts.getBalance() + " to your Checking account." + reset);
+
                     }
                 }
 
-                System.out.print(blue + "Are you sure you want to delete your Saving account? (yes/no): " + reset);
+                System.out.print("Are you sure you want to delete your Saving account? (yes/no): " );
                 String confirmDelete = sc.nextLine().trim().toLowerCase();
                 if (confirmDelete.equals("yes")) {
                     savingAccounts = null;

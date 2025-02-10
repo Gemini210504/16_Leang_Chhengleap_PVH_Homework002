@@ -32,12 +32,12 @@ public class CheckingAccount implements Account{
     public Account deposit(double amount) {
         if (amount > 0) {
             balance += amount;
-            System.out.println(blue+"                 Checking Account                       "+reset);
+            System.out.println("\n                 Checking Account                       ");
             System.out.println(blue+"Received            :                         $ "+amount+""+reset);
             System.out.println(blue+"Total Amount        :                         $ "+balance+""+reset);
 
-            System.out.println(blue+"\n Deposit successful!"+reset);
-            System.out.println(blue+"============================================================"+reset);
+            System.out.println(blue+"\n>>> Deposit successful! <<<\n"+reset);
+
 
         } else {
             System.out.println(red+"Deposit amount must be positive!"+reset);
@@ -49,12 +49,12 @@ public class CheckingAccount implements Account{
     public void withdraw(double amount) {
         if (amount > 0 && balance >= amount) {
             balance -= amount;
-            System.out.println(blue+"                 Checking Account                       "+reset);
+            System.out.println(blue+"              Withdraw from Checking Account                       "+reset);
             System.out.println(blue+"Received            :                         $ "+amount+""+reset);
             System.out.println(blue+"Total balance       :                         $ "+balance+""+reset);
 
-            System.out.println(blue+"\n Withdraw successful!");
-            System.out.println(blue+"============================================================="+reset);
+            System.out.println(blue+"\n >>> Withdraw successful! <<<\n"+reset);
+
 
         } else {
             System.out.println(red+"No balance in checking account or invalid amount."+reset);
@@ -66,10 +66,10 @@ public class CheckingAccount implements Account{
         if (amount > 0 && balance >= amount) {
             balance -= amount;
             targetAccount.deposit(amount);
-
-            System.out.println("Transferred         :                       $"+amount);
-            System.out.println("From                : Checking Account with ID    : "+getAccountNumber());
-            System.out.println("To                  :   Saving Account with ID    : "+((SavingAccount) targetAccount).getAccountNumber());
+            System.out.println("\n                   Transferred Checking                         ");
+            System.out.println(blue+"Transferred         :                       $"+amount+""+reset);
+            System.out.println(blue+"From                : Checking Account with ID    : "+getAccountNumber()+""+reset);
+            System.out.println(blue+"To                  :   Saving Account with ID    : "+((SavingAccount) targetAccount).getAccountNumber()+""+reset);
 
         } else {
             System.out.println(red+"No balance in checking account or invalid transfer amount."+reset);
@@ -78,7 +78,7 @@ public class CheckingAccount implements Account{
 
     @Override
     public void displayAccount() {
-        System.out.println(blue+"======= Checking Account Information ======="+reset);
+        System.out.println("======= Checking Account Information =======");
         System.out.println(blue+"Account Type  : Checking Account"+reset);
         System.out.println(blue+"Account Number: " + accountNumber+""+reset);
         System.out.println(blue+"Username: " + userName+""+reset);
@@ -86,7 +86,7 @@ public class CheckingAccount implements Account{
         System.out.println(blue+"Gender: " + gender+""+reset);
         System.out.println(blue+"Phone Number: " + phoneNumber+""+reset);
         System.out.println(blue+"Balance: $" + balance+""+reset);
-        System.out.println(blue+"============================================"+reset);
+        System.out.println("\n");
     }
 
 }

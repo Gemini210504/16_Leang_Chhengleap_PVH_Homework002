@@ -36,22 +36,24 @@ public class SavingAccount implements Account{
         if (amount > 0) {
             if(amount<200) {
                 balance += amount;
-                System.out.println(blue+"                 Saving Account                       "+reset);
+                System.out.println("\n");
+                System.out.println("\n                 Saving Account                       ");
                 System.out.println(blue+"Received            :                         $ " + amount+""+reset);
                 System.out.println(blue+"Total balance       :                         $ " + balance+""+reset);
 
-                System.out.println(blue+"\n Withdraw successful!");
-                System.out.println(blue+"=============================================================");
+                System.out.println(blue+"\n >>> Deposit successful! <<<\n"+reset);
+
 
             }else{
                 balance += amount;
                 double interest = balance * rate;
                 balance += interest;
-                System.out.println(blue+"                 Saving Account                       "+reset);
+                System.out.println("\n");
+                System.out.println("\n                 Saving Account                       ");
                 System.out.println(blue+"Received            :                         $ " + amount+""+reset);
                 System.out.println(blue+"Total balance       :                         $ " + balance+""+reset);
-                System.out.println(blue+"\n Withdraw successful!");
-                System.out.println(blue+"=============================================================\n"+reset);
+                System.out.println(blue+"\n >>> Deposit successful! <<<\n"+reset);
+
 
             }
         } else {
@@ -64,15 +66,15 @@ public class SavingAccount implements Account{
     public void withdraw(double amount) {
         if (amount <= (0.8 * balance) && balance >= amount) {
             balance -= amount;
-            System.out.println(blue+"                 Saving Account                       "+reset);
+            System.out.println("\n                 Withdraw from Saving Account                       ");
             System.out.println(blue+"Withdraw            :                         $ "+amount+""+reset);
             System.out.println(blue+"Total Amount        :                         $ "+balance+""+reset);
 
-            System.out.println(blue+"\n Withdraw successful!"+reset);
-            System.out.println(blue+"============================================================="+reset);
+            System.out.println(blue+"\n >>> Withdraw successful! <<<\n"+reset);
+
 
         } else if (amount > (0.8*balance)){
-            System.out.println(red+"Cannot withdraw $"+amount+". At lease "+(amount-(0.8*balance))+" must remain in the account."+reset);
+            System.out.println(red+"Cannot withdraw $"+amount+". At lease "+(balance-(0.8*balance))+" must remain in the account."+reset);
         }else{
             System.out.println(red+"No balance in saving account or invalid amount."+reset);
         }
@@ -85,11 +87,11 @@ public class SavingAccount implements Account{
         if (amount > 0 && balance >= amount) {
             balance -= amount;
             targetAccount.deposit(amount);
-
+            System.out.println("\n                   Transferred Checking                         ");
             System.out.println(blue+"Transferred         :                       $"+amount+""+reset);
             System.out.println(blue+"From                : Saving Account with ID  : "+getAccountNumber()+""+reset);
             System.out.println(blue+"To                  : Checking Account with ID    : "+((CheckingAccount) targetAccount).getAccountNumber()+""+reset);
-            System.out.println(blue+"Transferred $" + amount + " from your Saving account to the target account."+reset);
+
         } else {
             System.out.println(red+"No balance in saving account or invalid transfer amount."+reset);
         }
@@ -97,7 +99,7 @@ public class SavingAccount implements Account{
 
     @Override
     public void displayAccount() {
-        System.out.println(blue+"======= Saving Account Information ======="+reset);
+        System.out.println("======= Saving Account Information ========");
         System.out.println(blue+"Account Type  : Saving Account"+reset);
         System.out.println(blue+"Account Number: " + accountNumber+""+reset);
         System.out.println(blue+"Username: " + userName+""+reset);
@@ -105,6 +107,6 @@ public class SavingAccount implements Account{
         System.out.println(blue+"Gender: " + gender+""+reset);
         System.out.println(blue+"Phone Number: " + phoneNumber+""+reset);
         System.out.println(blue+"Balance: $" + balance+""+reset);
-        System.out.println(blue+"============================================"+reset);
+        System.out.println("\n");
     }
 }
